@@ -1,0 +1,15 @@
+.card-product{
+    width:18rem;
+    height: 620px;
+    & .card-title{
+        height: 50px;
+    }   
+    & .card-text{
+        height: 100px;
+        overflow: hidden;
+        text-overflow: "......."; 
+    }
+}
+.modal-w{
+    max-width: 1000px;
+}
