@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap"
 import { Button, Modal, Form, Image } from "react-bootstrap";
 import AdminLayout from "../../../layouts/adminLayout.js"
-import Card from "../../../parts/card/index.js";
+import Card from "../../../parts/card-admin/index.js";
 import styles from "../../../styles/card.module.scss"
 export default function Products({ data, countries }) {
     const [description, setDescription] = useState("");

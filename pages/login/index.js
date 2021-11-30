@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import {Alert} from "react-bootstrap"
+import { useRouter } from 'next/router'
+import { Alert } from "react-bootstrap"
 import styles from "../../styles/login.module.scss";
 
 export default function Login({ users }) {
@@ -7,18 +8,28 @@ export default function Login({ users }) {
     const [password, setPassword] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [hideU, setHideU] = useState("d-none")
+    const [hideP, setHideP] = useState("d-none")
+    const router = useRouter()
 
     const handleInput = (e) => {
+        setHideU("d-none")
+        setHideP("d-none")
         e.preventDefault();
         if (users.findIndex(a => a.username == username) != -1) {
-            if (users.findIndex(a => a.password == password) != -1) {
-                console.log(true)
+            let index = users.findIndex(a => a.password == password)
+            if (index != 1) {
+                router.push("/admin")
             }
-            else
+            else {
                 setPasswordError("password error!")
+                setHideP("")
+            }
         }
-        else
+        else {
             setUsernameError("username error!")
+            setHideU("")
+        }
     };
 
     return (
@@ -41,7 +52,7 @@ export default function Login({ users }) {
                                         className={`${styles["form-control-login"]} ${styles.username}`}
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
-                                    <Alert variant="danger">
+                                    <Alert variant="danger" className={`${hideU}`}>
                                         {usernameError}
                                     </Alert>
                                 </div>
@@ -52,7 +63,7 @@ export default function Login({ users }) {
                                         className={`${styles["form-control-login"]} ${styles.password}`}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
-                                    <Alert variant="danger">
+                                    <Alert variant="danger" className={`${hideP}`}>
                                         {passwordError}
                                     </Alert>
                                 </div>
