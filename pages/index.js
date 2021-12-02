@@ -1,22 +1,12 @@
-import React,{useState} from "react";
-import Top from "../parts/header-top/index.js";
-import Bottom from "../parts/header-bot/index.js";
+import React from "react";
 import Content from "../parts/content/index"
-import { Container, Row } from "react-bootstrap";
-export default function Home({products}) {
-    const [badge, setBadge] = useState(0)
+import HomeLayout from "../layouts/homeLayout"
+export default function Home({ products }) {
+
     return (<>
-        <Container fluid className="w-100">
-            <Row>
-                <Top badge={badge}/>
-            </Row>
-            <Row>
-                <Bottom />
-            </Row>
-            <Row>
-                <Content products={products} setBadge={setBadge}/>
-            </Row>
-        </Container>
+        <HomeLayout>
+            <Content products={products} />
+        </HomeLayout>
     </>
     );
 }

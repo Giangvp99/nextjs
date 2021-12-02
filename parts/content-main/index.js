@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React  from "react"
 import Card from "../card-user/index";
-export default function Main({ products,setBadge }) {
+export default function Main({ products }) {
     return <>
         <div className="d-flex flex-wrap col justify-content-between ps-4">
             {Object.entries(products).map(
@@ -15,7 +15,6 @@ export default function Main({ products,setBadge }) {
                         material={material}
                         country={country}
                         color={color}
-                        setBadge={setBadge}
                     />
                 )
             )}
