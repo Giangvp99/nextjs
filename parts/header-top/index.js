@@ -12,15 +12,15 @@ export default function Top() {
         router.push("/login")
     }
     const [show, setShow] = useState(false);
+    const [total, setTotal] = useState(0);
     const closeCart = () => setShow(false);
     const showCart = () => {
         setShow(true);
+        setTotal(Sum())
     }
-    const sum = () => {
-        let res = products.map(a => a.total * a.price).reduce((a, b) => a + b, 0)
-        console.log(res)
-        return res
-
+    const Sum = () => {
+        let res = products.map(a => a.total * parseFloat(a.price.slice(1))).reduce((a, b) => a + b, 0)
+        return parseFloat(res.toFixed(2))
     }
     return (
         <nav className="navbar navbar-expand-lg navbar-light p-0">
@@ -90,32 +90,43 @@ export default function Top() {
                 <Modal.Body>
                     <Container>
                         <Row>
-                            <Col xs={8}>
-                                {
-                                    Object.entries(products).map(([slug, { name, img, total, price }]) => {
-                                        return (
-                                            <div className="d-flex">
-                                                <Image key={slug} src={img} rounded className={`${styles.size} mb-3`} />
-                                                <div>
-                                                    <p className="ps-3 fs-4">{name}</p>
-                                                    <p className="ps-3 fs-5">количество: {total}</p>
-                                                    <p className="ps-3 fs-5">Price: {price}</p>
-                                                </div>
-                                            </div>)
-                                    })
-                                }
-                            </Col>
-                            <Col className="d-flex">
-                                <div>
-                                    <p className="m-0 fw-bold">Товары ({products.length}):</p>
-                                    <p className="m-0 fw-bold">Скидка:</p>
-                                    <p className="m-0 fw-bold">Доставка:</p>
-                                    <p className="pt-3 fw-bold fs-4">Итого:</p>
-                                </div>
-                                <div>
-                                    <p>{sum}</p>
-                                </div>
-                            </Col>
+                            {
+                                total > 0 && <>
+
+                                    <Col xs={8}>
+                                        {
+                                            Object.entries(products).map(([slug, { name, img, total, price }]) => {
+                                                return (
+                                                    <div className="d-flex">
+                                                        <Image key={slug} src={img} rounded className={`${styles.size} mb-3`} />
+                                                        <div>
+                                                            <p className="ps-3 fs-4">{name}</p>
+                                                            <p className="ps-3 fs-5">количество: {total}</p>
+                                                            <p className="ps-3 fs-5">Price: {price}</p>
+                                                        </div>
+                                                    </div>)
+                                            })
+                                        }
+                                    </Col>
+                                    <Col>
+                                        <div className="d-flex bg-info bg-opacity-50 p-3">
+                                            <div className="me-5 pe-4">
+                                                <p className="m-0 fw-bolder">Товары ({products.length}):</p>
+                                                <p className="m-0 fw-bolder">Скидка:</p>
+                                                <p className="m-0 fw-bolder">Доставка:</p>
+                                                <p className="pt-3 fw-bolder fs-4">Итого:</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-end m-0 fw-bold">{total} $</p>
+                                                <p className="text-end m-0 fw-bold">0.00 $</p>
+                                                <p className="text-end m-0 fw-bold">1.00 $</p>
+                                                <p className="text-end fw-bold pt-4">{total + 1.00} $</p>
+                                            </div>
+                                        </div>
+                                    </Col></>
+                            }{
+                                total == 0 && <p className="fs-2 ms-5 ps-5 fw-bolder">Корзина покупок</p>
+                            }
                         </Row>
                     </Container>
 
@@ -126,6 +137,6 @@ export default function Top() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </nav>
+        </nav >
     );
 }
