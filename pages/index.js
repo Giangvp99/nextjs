@@ -3,12 +3,17 @@ import Content from "../parts/content/index"
 import HomeLayout from "../layouts/homeLayout"
 import { useSetRecoilState } from "recoil"
 import { users as usersState } from "../recoil/states/users"
+import { products as productsState } from "../recoil/states/products"
 export default function Home({ products, users }) {
     const setUsers = useSetRecoilState(usersState)
-    useEffect(() => setUsers(users),[])
+    const setProducts = useSetRecoilState(productsState)
+    useEffect(() => {
+        setUsers(users);
+        setProducts(products)
+    }, [])
     return (<>
         <HomeLayout>
-            <Content products={products} />
+            <Content />
         </HomeLayout>
     </>
     );

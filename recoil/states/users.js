@@ -4,11 +4,10 @@ export const users = atom({
     default: []
 });
 
-export const newUser = selector({
-    key: "newUser",
-    get: ()=>{},
-    set: ({ get, set }, newUser) => {
-        const list = get(users)
-        set(users, [...list, newUser])
+export const newUser=selector({
+    key:"newUser",
+    get:()=>{},
+    set:({get,set},newUser)=>{
+        set(users,[...get(users),newUser])
     }
 })
