@@ -5,11 +5,11 @@ export default function AdminLayout({ children }) {
         <>
             <div className="container-fluid h-100">
                 <div className="row">
-                    <NavBar />
+                    <NavBar/>
                 </div>
                 <div className="row h-100 d-flex flex-row">
                     <div className="col-12">
-                        <div className="container content ">
+                        <div className="container content bg-white p-5">
                             {children}
                         </div>
                     </div>

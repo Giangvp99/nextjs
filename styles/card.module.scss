@@ -1,19 +1,53 @@
 .card-product{
     width:18rem;
     height: 620px;
-    & .card-title{
-        height: 50px;
-    }   
-    & .card-text{
-        height: 100px;
-        overflow: hidden;
-        text-overflow: "......."; 
-    }
+}
+.card-text{
+    height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+.card-title{
+    height: 50px;
+}
+.card-users{
+    width:18rem;
+    height: 420px;
 }
 .modal-w{
     max-width: 1000px;
+}
+.login{
+    max-width:800px;
+    &>div{
+        height: 600px;
+    }
 }
 .size{
     width: 100px;
     height: 52px;
 }
+.ul{
+                    list-style-type:none;
+                    column-count:4;
+    a{
+                            color:#222;
+                            text-decoration: none;
+                        }
+                ul{
+                    list-style-type:none;
+                    &>li{
+                        
+                            a{
+                                color:#777
+                            }
+                    }
+                }
+}
+    .colors{
+        button{
+            width:30px;
+            height: 30px;
+        }
+    }
+

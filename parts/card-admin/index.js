@@ -6,8 +6,8 @@ export default function Card(props) {
         <div className={`${styles['card-product']} mb-3 border border-2 position-relative`}>
             <img src={props.img} className="card-img-top p-4" alt="..." />
             <div className="card-body">
-                <h5 className="card-title">{props.name}</h5>
-                <p className="card-text">{props.description}</p>
+                <h5 className={`${styles['card-title']}`}>{props.name}</h5>
+                <p className={`${styles['card-text']}`}>{props.description}</p>
             </div>
             <div className="card-body ms-3 p-1 ">
                 <div>Price: {props.price}</div>

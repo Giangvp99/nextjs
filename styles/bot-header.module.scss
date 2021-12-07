@@ -4,3 +4,18 @@
     background-repeat: no-repeat;
     background-position: 98% 50%;
 }
+.background{
+    background-image: url('../public/images/fond-menu.jpg');
+}
+.color{
+    &>a{
+        background-color: #e24d89;
+        color:#fff;
+        border-radius: 3px;
+        margin-right: 10px;
+        &:hover{
+            background-color:#8f5da3;
+            color:#fff
+        }
+    }
+}

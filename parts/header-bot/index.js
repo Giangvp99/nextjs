@@ -3,10 +3,11 @@ import { Navbar, Nav, Container, NavDropdown, FormControl } from "react-bootstra
 import styles from "../../styles/bot-header.module.scss"
 export default function Bottom() {
     return (
-        <Navbar bg="light" variant="light" >
+        <div className={`${styles.background} p-2`}>
+        <Navbar variant="light" >
             <Container>
                 <div className="d-flex flex-row align-items-center w-100">
-                    <NavDropdown title="Каталог тканей" id="navbarScrollingDropdown">
+                    <NavDropdown title="Каталог тканей" id="navbarScrollingDropdown" className={`${styles.color}`}>
                         <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
                         <NavDropdown.Divider />
@@ -27,5 +28,6 @@ export default function Bottom() {
                 </div>
             </Container>
         </Navbar>
+        </div>
     );
 }
