@@ -1,55 +1,57 @@
 import React, { useState } from "react"
-import { Modal, Button, Container, Row, Alert } from "react-bootstrap"
+import { Modal, Button, Container, Row, Form, Col, Alert } from "react-bootstrap"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { users as usersState, newUser as newUserState } from "../../../recoil/states/users"
 import { useRouter } from "next/router";
 import stylesC from "../../../styles/card.module.scss"
 import styles from "../../../styles/header-top.module.scss"
-export default function ModalLogin({ showL,setShowL  ,setUser}) {
+export default function ModalLogin({ showL, setShowL, setUser }) {
     const [active, setActive] = useState(true)
-    const [hideU, setHideU] = useState("d-none")
-    const [hideP, setHideP] = useState("d-none")
-    const [usernameError, setUsernameError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+    const [hide, setHide] = useState("d-none")
+    const [errors, setErrors] = useState({ username: "", password: "" })
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [vpassword, setVPassword] = useState("");
     const setNewUser = useSetRecoilState(newUserState)
     const users = useRecoilValue(usersState)
     const closeLogin = () => setShowL(false);
     const router = useRouter()
+    const [validated, setValidated] = useState(false);
+
     const Login = (e) => {
-        setHideU("d-none")
-        setHideP("d-none")
+        setErrors({ username: "", password: "" })
         e.preventDefault();
-        if (users.findIndex(a => a.username == username) != -1) {
-            let index = users.findIndex(a => a.password == password)
-            if (index != 1) {
+        if (users.findIndex(a => a.username === username) != -1) {
+            let index = users.findIndex(a => a.password === password)
+            if (index != -1) {
                 setUser({ username, password })
                 if (username === "admin")
                     router.push("/admin")
                 setShowL(false)
             }
             else {
-                setPasswordError("password error!")
-                setHideP("")
+                setErrors(prev => { return { ...prev, password: "Error password" } })
+                setHide("")
             }
         }
         else {
-            setUsernameError("username error!")
-            setHideU("")
+            setErrors(prev => { return { ...prev, username: "Error username" } })
+            setHide("")
         }
     };
     const Registration = (e) => {
-        setActive(true)
         e.preventDefault();
-        setNewUser({ username, password })
-        setHideU("d-none")
-        setHideU("d-none")
+        if (password === vpassword) {
+            setActive(true)
+            setNewUser({ username, password })
+            setHide("d-none")
+            setErrors({ username: "", password: "" })
+        }
     }
     return <Modal show={showL} onHide={closeLogin} dialogClassName={stylesC.login}>
         <Modal.Header closeButton>
             <Modal.Title><Button variant={`${active ? "info" : "transparent"}`} onClick={() => setActive(true)}>Login</Button></Modal.Title>
-            <Modal.Title className="text-secondary ms-2"><Button variant={`${active ? "transparent" : "info"}`} onClick={() => setActive(false)}>Registration</Button></Modal.Title>
+            <Modal.Title className="text-secondary ms-2"><Button variant={`${active ? "transparent" : "info"}`} onClick={() => { setActive(false); setUsername(""); setPassword("") }}>Registration</Button></Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Container>
@@ -57,42 +59,31 @@ export default function ModalLogin({ showL,setShowL  ,setUser}) {
                     {
                         active && <>
                             <div className="col-lg-12 login-form">
-                                <div className={`col-lg-12 ${styles["login-form"]}`}>
-                                    <form>
-                                        <div className={`${styles["form-group"]}`}>
-                                            <label className={`${styles["form-control-label"]} me-2`}>USERNAME</label>
-                                            <input
+                                <div className={`col-lg-12`}>
+                                    <Alert variant="danger" className={`${hide}`}>{errors.username != "" && "Username not exits"}{errors.password != "" && "Password error"}</Alert>
+                                    <Form noValidate validated={validated} onSubmit={Login}>
+                                        <Form.Group as={Col} md="4" controlId="username">
+                                            <Form.Label>Username</Form.Label>
+                                            <Form.Control
+                                                required
                                                 type="text"
-                                                className={`${styles["form-control-login"]} ${styles.username}`}
+                                                value={username}
                                                 onChange={(e) => setUsername(e.target.value)}
+                                                isInvalid={errors.username !== ""}
                                             />
-                                            <Alert variant="danger" className={`${hideU}`}>
-                                                {usernameError}
-                                            </Alert>
-                                        </div>
-                                        <div className={`${styles["form-group"]}`}>
-                                            <label className={`${styles["form-control-label"]} me-2`}>PASSWORD</label>
-                                            <input
+                                        </Form.Group>
+                                        <Form.Group as={Col} md="4" controlId="password">
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control
+                                                required
                                                 type="password"
-                                                className={`${styles["form-control-login"]} ${styles.password}`}
+                                                value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
+                                                isInvalid={errors.password !== ""}
                                             />
-                                            <Alert variant="danger" className={`${hideP}`}>
-                                                {passwordError}
-                                            </Alert>
-                                        </div>
-
-                                        <div className={`col-lg-12 ${styles["login-button"]} d-flex`}>
-                                            <button
-                                                type="submit"
-                                                className={`btn ${styles["btn-outline-primary"]} ms-auto`}
-                                                onClick={(e) => Login(e)}
-                                            >
-                                                LOGIN
-                                            </button>
-
-                                        </div>
-                                    </form>
+                                        </Form.Group>
+                                        <Button type="submit" className="mt-3">Login</Button>
+                                    </Form>
                                 </div>
                             </div>
                         </>
@@ -100,36 +91,36 @@ export default function ModalLogin({ showL,setShowL  ,setUser}) {
                     {
                         !active && <>
                             <div className="col-lg-12 login-form">
-                                <div className={`col-lg-12 ${styles["login-form"]}`}>
-                                    <form>
-                                        <div className={`${styles["form-group"]}`}>
-                                            <label className={`${styles["form-control-label"]} me-2`}>USERNAME</label>
-                                            <input
+                                <div className={`col-lg-12`}>
+                                    <Form noValidate validated={validated} onSubmit={e => Registration(e)}>
+                                        <Form.Group as={Col} md="4" controlId="username">
+                                            <Form.Label>Username</Form.Label>
+                                            <Form.Control
+                                                required
                                                 type="text"
-                                                className={`${styles["form-control-login"]} ${styles.username}`}
                                                 onChange={(e) => setUsername(e.target.value)}
                                             />
-                                        </div>
-                                        <div className={`${styles["form-group"]}`}>
-                                            <label className={`${styles["form-control-label"]} me-2`}>PASSWORD</label>
-                                            <input
+                                        </Form.Group>
+                                        <Form.Group as={Col} md="4" controlId="password">
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control
+                                                required
                                                 type="password"
-                                                className={`${styles["form-control-login"]} ${styles.password}`}
                                                 onChange={(e) => setPassword(e.target.value)}
                                             />
-                                        </div>
-
-                                        <div className={`col-lg-12 ${styles["login-button"]} d-flex`}>
-                                            <button
-                                                type="submit"
-                                                className={`btn ${styles["btn-outline-primary"]} ms-auto`}
-                                                onClick={(e) => Registration(e)}
-                                            >
-                                                Registration
-                                            </button>
-
-                                        </div>
-                                    </form>
+                                        </Form.Group>
+                                        <Form.Group as={Col} md="4" controlId="verify_password">
+                                            <Form.Label>Verify Password</Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="password"
+                                                onChange={(e) => setVPassword(e.target.value)}
+                                                isValid={password == vpassword}
+                                                isInvalid={password != vpassword}
+                                            />
+                                        </Form.Group>
+                                        <Button type="submit" className="mt-3">Registration</Button>
+                                    </Form>
                                 </div>
                             </div>
                         </>

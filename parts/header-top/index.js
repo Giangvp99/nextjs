@@ -75,7 +75,7 @@ export default function Top() {
                     JSON.stringify(user) !== JSON.stringify({}) && <Button variant="info" size="sm" className="ps-3 pe-3 ms-3">{user.username}</Button>
                 }
             </div>
-            <ModalLogin showL={showL} setShowL={setShowL} setUser={setUser} />
+            <ModalLogin showL={showL} setShowL={setShowL} setUser={setUser} user={user}/>
             <ModalCart showC={showC} setShowC={setShowC} user={user}/>
         </nav >
     );
