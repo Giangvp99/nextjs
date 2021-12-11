@@ -1,6 +1,6 @@
 import React from "react";
-import Top from "../parts/header-top/index.js";
-import Bottom from "../parts/header-bot/index.js";
+import Top from "../parts/header/top/index.js";
+import Bottom from "../parts/header/bot/index.js";
 import { Container, Row } from "react-bootstrap";
 export default function HomeLayout({ children }) {
     return (<>

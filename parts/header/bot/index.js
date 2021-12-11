@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown, FormControl } from "react-bootstrap"
-import styles from "../../styles/bot-header.module.scss"
+import styles from "../../../styles/bot-header.module.scss"
 export default function Bottom() {
     return (
         <div className={`${styles.background} p-2`}>

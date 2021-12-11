@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil"
-import { cart as cartState } from "../../recoil/states/cart"
+import { cart as cartState } from "../../../recoil/states/cart"
 import { Button, Badge, } from "react-bootstrap";
 import ModalLogin from "./modal-login/index"
 import ModalCart from "./modal-cart/index"

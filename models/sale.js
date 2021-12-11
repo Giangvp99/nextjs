@@ -6,12 +6,11 @@ connectDB()
 let Schema = mongoose.Schema;
 
 let saleSchema = new Schema({
-    time: String,
-    title: String,
-    name: String,
+    time: Array,
+    buyer: String,
     phone: String,
     age: Number,
-    gender: String,
+    gender: Boolean,
     mail: String,
     products: Object
 });

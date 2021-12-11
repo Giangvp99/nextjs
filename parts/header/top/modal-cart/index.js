@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Modal, Container, Row, Col, InputGroup, FormControl, Button, Image } from "react-bootstrap"
 import { useRecoilValue } from "recoil"
-import { cart as cartState } from "../../../recoil/states/cart"
-import stylesC from "../../../styles/card.module.scss"
-import styles from "../../../styles/header-top.module.scss"
+import { cart as cartState } from "../../../../recoil/states/cart"
+import stylesC from "../../../../styles/card.module.scss"
+import styles from "../../../../styles/header-top.module.scss"
+
 export default function ModalCart({ showC, setShowC, user }) {
     const cart = useRecoilValue(cartState)
     const [total, setTotal] = useState(0);
@@ -16,6 +17,16 @@ export default function ModalCart({ showC, setShowC, user }) {
     const Continue = () => {
         if (JSON.stringify(user) === JSON.stringify({}))
             setOpenInfo("")
+    }
+    const Payment = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user, cart })
+        };
+        let res = await fetch('http://localhost:3000/api/sales/new', requestOptions)
+        const sale = await res.json()
+        console.log(sale)
     }
     const Sum = () => {
         let res = cart.map(a => a.total * parseFloat(a.price.slice(1))).reduce((a, b) => a + b, 0)
@@ -111,12 +122,14 @@ export default function ModalCart({ showC, setShowC, user }) {
 
         </Modal.Body>
         <Modal.Footer>
-            {total !== 0 &&
+            {total !== 0 && (openInfo === "" || JSON.stringify(user) !== JSON.stringify({})) ?
+                <Button variant="info" onClick={() => Payment()}>
+                    Payment
+                </Button> :
                 <Button variant="info" onClick={Continue}>
-                    {
-                        (openInfo === "" || JSON.stringify(user) !== JSON.stringify({})) ? "Payment" : "Continue"
-                    }
-                </Button>}
+                    Continue
+                </Button>
+            }
             <Button variant="secondary" onClick={closeCart}>
                 Close
             </Button>

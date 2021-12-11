@@ -21,7 +21,7 @@ export default function Card(props) {
         else {
             setCart([
                 ...cart,
-                { name: props.name, img: props.img, price: props.price, total: 1.0 }
+                { _id: props._id, name: props.name, img: props.img, price: props.price, total: 1.0 }
             ])
         }
         setTotal(parseFloat(total) + 1)
@@ -54,7 +54,7 @@ export default function Card(props) {
 
     return (<>
         <div className={`${styles['card-users']} mb-3 border border-2 position-relative`}>
-            <img src={props.img} className="card-img-top p-4" alt="..." />
+            <img src={props.image} className="card-img-top p-4" alt="..." />
             <div className="card-body p-0 ms-3">
                 <h5 className={`${styles['card-title']}`}>{props.name}</h5>
             </div>

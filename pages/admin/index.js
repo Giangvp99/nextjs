@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminLayout from "../../layouts/adminLayout.js"
-import Preview from "../../parts/admin-preview/index.js"
-import Graph from "../../parts/admin-graph/index.js"
-import Latest_Transaction from "../../parts/admin-lastest-trans/index.js"
-export default function Dashboard() {
+import Preview from "../../parts/admin/preview/index.js"
+import Graph from "../../parts/admin/graph/index.js"
+import Latest_Transaction from "../../parts/admin/lastest-trans/index.js"
+import { sales as salesState } from "../../recoil/states/sales"
+import { products as productsState } from "../../recoil/states/products"
+import { useSetRecoilState } from "recoil";
+export default function Dashboard({ dataS, dataP }) {
+    const setSales = useSetRecoilState(salesState)
+    const setProducts = useSetRecoilState(productsState)
+    useEffect(() => {
+        setSales(dataS)
+        setProducts(dataP)
+    }, [])
     return (
         <>
             <div className="row">
@@ -14,5 +23,20 @@ export default function Dashboard() {
         </>
     );
 }
+export async function getStaticProps() {
+    let res = await fetch('http://localhost:3000/api/sales')
+    const dataS = await res.json()
+    res = await fetch('http://localhost:3000/api/products')
+    const dataP = await res.json()
 
+    if (!dataS || !dataP) {
+        return {
+            notFound: true,
+        }
+    }
+
+    return {
+        props: { dataS, dataP }, // will be passed to the page component as props
+    }
+}
 Dashboard.Layout = AdminLayout

@@ -3,7 +3,7 @@ import Sale from "./sale/index.js"
 import AdminLayout from "../../../layouts/adminLayout.js"
 import styles from "../../../styles/timeline.module.scss"
 export default function Sales({ sales }) {
-    sales.sort((a, b) => new Date(a.time) - new Date(b.time))
+    sales.sort((a, b) => new Date(...b.time) - new Date(...a.time))
     return (
         <>
             <div className="sales row">
@@ -37,5 +37,3 @@ export async function getStaticProps() {
     }
 }
 Sales.Layout = AdminLayout
-
-

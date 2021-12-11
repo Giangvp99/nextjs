@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from "../parts/admin-navbar/index.js";
+import NavBar from "../parts/admin/navbar/index.js";
 export default function AdminLayout({ children }) {
     return (
         <>

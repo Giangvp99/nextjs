@@ -26,6 +26,11 @@ export default function NavBar() {
                                     Search
                                 </button>
                             </form>
+                            <Link href="/">
+                                <a className="ms-2" >
+                                    Home
+                                </a>
+                            </Link>
                         </div>
                     </div>
                 </nav>

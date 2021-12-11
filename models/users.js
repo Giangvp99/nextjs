@@ -10,6 +10,7 @@ let userSchema = new Schema({
     password: String,
     fullname: String,
     age: Number,
+    gender:Boolean,
     phone: String,
     email: String,
     address: String,

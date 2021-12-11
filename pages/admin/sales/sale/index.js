@@ -32,7 +32,7 @@ export default function Sale({ slug, time, title, name, phone, age, gender, mail
                     className={`${styles['content-sale']} border border-2`}
                     onClick={() => handleShow()}
                 >
-                    <p className="fs-6">{time}</p>
+                    <p className="fs-6">{time[0]+"-"+time[1]+"-"+time[2]+" "+time[3]+":"+time[4]+":"+time[5]}</p>
                     <span className="fs-4">{title}</span>
                 </div>
                 <Modal show={show} onHide={handleClose} dialogClassName={stylesC['modal-w']}>

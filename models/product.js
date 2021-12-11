@@ -6,14 +6,16 @@ connectDB()
 let Schema = mongoose.Schema;
 
 let productSchema = new Schema({
-    name:String,
-    img: String,
-    description: String,
+    image: String,
+    title:String,
     price: String,
-    quatity: Number,
+    amount: Number,
     color: String,
-    material: String,
-    country: String
+    material: Object,
+    country: String,
+    model:String,
+    type:String,
+    name:String
 });
 
 mongoose.models = {};

@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { Modal, Button, Container, Row, Form, Col, Alert } from "react-bootstrap"
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { users as usersState, newUser as newUserState } from "../../../recoil/states/users"
+import { users as usersState, newUser as newUserState } from "../../../../recoil/states/users"
 import { useRouter } from "next/router";
-import stylesC from "../../../styles/card.module.scss"
-import styles from "../../../styles/header-top.module.scss"
+import stylesC from "../../../../styles/card.module.scss"
+// import styles from "../../../styles/header-top.module.scss"
 export default function ModalLogin({ showL, setShowL, setUser }) {
     const [active, setActive] = useState(true)
     const [hide, setHide] = useState("d-none")
