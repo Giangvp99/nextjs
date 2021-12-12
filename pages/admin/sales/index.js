@@ -12,8 +12,8 @@ export default function Sales({ sales }) {
                     <div className={styles.timeline}>
                         {
                             Object.entries(sales).map(
-                                ([slug, { time, title, name, phone, age, gender, mail, products }]) =>
-                                    <Sale key={slug} time={time} title={title} name={name} phone={phone} age={age} gender={gender} mail={mail} products={products} slug={slug} />
+                                ([slug, sale]) =>
+                                    <Sale key={slug} sale={sale} slug={slug} />
                             )
                         }
                     </div>

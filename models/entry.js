@@ -6,7 +6,7 @@ connectDB()
 let Schema = mongoose.Schema;
 
 let entrySchema = new Schema({
-    time: String,
+    time: Array,
     supplier: String,
     mail: String,
     phone: String,

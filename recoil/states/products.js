@@ -5,7 +5,7 @@ export const products = atom({
 });
 
 export const addProduct = selector({
-    key: "add",
+    key: "addProduct",
     get: () => { },
     set: ({ get, set }, product) => {
         const list = get(products)

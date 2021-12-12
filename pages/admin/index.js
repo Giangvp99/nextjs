@@ -5,13 +5,16 @@ import Graph from "../../parts/admin/graph/index.js"
 import Latest_Transaction from "../../parts/admin/lastest-trans/index.js"
 import { sales as salesState } from "../../recoil/states/sales"
 import { products as productsState } from "../../recoil/states/products"
+import { entries as entriesState } from "../../recoil/states/entries"
 import { useSetRecoilState } from "recoil";
-export default function Dashboard({ dataS, dataP }) {
+export default function Dashboard({ dataS, dataP, dataE }) {
     const setSales = useSetRecoilState(salesState)
     const setProducts = useSetRecoilState(productsState)
+    const setEntries = useSetRecoilState(entriesState)
     useEffect(() => {
         setSales(dataS)
         setProducts(dataP)
+        setEntries(dataE)
     }, [])
     return (
         <>
@@ -28,15 +31,17 @@ export async function getStaticProps() {
     const dataS = await res.json()
     res = await fetch('http://localhost:3000/api/products')
     const dataP = await res.json()
+    res = await fetch('http://localhost:3000/api/entries')
+    const dataE = await res.json()
 
-    if (!dataS || !dataP) {
+    if (!dataS || !dataP || !dataE) {
         return {
             notFound: true,
         }
     }
 
     return {
-        props: { dataS, dataP }, // will be passed to the page component as props
+        props: { dataS, dataP, dataE }, // will be passed to the page component as props
     }
 }
 Dashboard.Layout = AdminLayout

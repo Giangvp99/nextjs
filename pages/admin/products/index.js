@@ -35,10 +35,10 @@ export default function Products({ productsF, countriesF }) {
         setProducts([...[...products].sort((a, b) => a.title.localeCompare(b.title))])
     }
     const Raise = () => {
-        setProducts([...[...products].sort((a, b) => a.price.localeCompare(b.price))])
+        setProducts([...[...products].sort((a, b) => a.price - b.price)])
     }
     const Reduce = () => {
-        setProducts([...[...products].sort((a, b) => b.price.localeCompare(a.price))])
+        setProducts([...[...products].sort((a, b) => b.price - a.price)])
     }
     const New = () => {
         setShowN(true)

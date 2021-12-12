@@ -1,39 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "../../../layouts/adminLayout.js"
 import Entry from "./entry/index.js"
+import { Button } from "react-bootstrap"
 import styles from "../../../styles/timeline.module.scss"
-export default function Entries({ entries }) {
-    entries.sort((a, b) => new Date(a.time) - new Date(b.time))
+import { entries as entriesState } from "../../../recoil/states/entries"
+import { products as productsState } from "../../../recoil/states/products"
+import { useRecoilState, useSetRecoilState } from "recoil";
+import ModalNew from "../../../parts/entries/modal/new"
+export default function Entries({ dataE, dataP }) {
+    const [entries, setEntries] = useRecoilState(entriesState)
+    const setProducts = useSetRecoilState(productsState)
+    const [showN, setShowN] = useState(false)
+    const handleCloseN=()=>{
+        setShowN(false)
+    }
+    useEffect(() => {
+        setEntries(
+            (dataE ? [...dataE] : []).sort((a, b) => new Date(a.time) - new Date(b.time))
+        )
+        setProducts(dataP)
+    }, [])
     return (
         <>
             <div className="entries row">
-                <div className="col-12"></div>
+                <div className="col-12 d-flex mb-2">
+                    <Button variant="info" className="ms-auto" onClick={() => setShowN(true)}>New</Button>
+                </div>
                 <div className="col-12">
                     <div className={`${styles.timeline}`}>
                         {
                             Object.entries(entries).map(
-                                ([slug, { time, supplier, mail, phone, address, products }]) =>
-                                    <Entry key={slug} time={time} supplier={supplier} mail={mail} phone={phone} address={address} products={products} slug={slug}/>
+                                ([slug, entry]) =>
+                                    <Entry key={slug} entry={entry} slug={slug} />
                             )
                         }
                     </div>
                 </div>
             </div>
+            <ModalNew show={showN} handleClose={handleCloseN} />
         </>
     );
 }
 
 export async function getStaticProps() {
     let res = await fetch('http://localhost:3000/api/entries')
-    const entries = await res.json()
-    if (!entries) {
+    const dataE = await res.json()
+    res = await fetch('http://localhost:3000/api/products')
+    const dataP = await res.json()
+    if (!dataE || !dataP) {
         return {
             notFound: true,
         }
     }
 
     return {
-        props: { entries }, // will be passed to the page component as props
+        props: { dataE, dataP }, // will be passed to the page component as props
     }
 }
 Entries.Layout = AdminLayout
