@@ -3,7 +3,7 @@ import { Modal, Button, Table } from "react-bootstrap";
 import styles from "../../../../styles/timeline.module.scss"
 import stylesC from "../../../../styles/card.module.scss"
 export default function Sale({ slug, sale }) {
-    const { time, title, name, phone, age, mail, products } = sale
+    const { time,  name, phone, age, mail, products } = sale
     const [show, setShow] = useState(false);
     const [productsInfo, setProductsInfo] = useState([])
     const [total, setTotal] = useState(0)
@@ -39,7 +39,7 @@ export default function Sale({ slug, sale }) {
                 </div>
                 <Modal show={show} onHide={handleClose} dialogClassName={stylesC['modal-w']}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{time}</Modal.Title>
+                        <Modal.Title>{time[0] + "-" + time[1] + "-" + time[2] + " " + time[3] + ":" + time[4] + ":" + time[5]}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>Name:{name}</p>

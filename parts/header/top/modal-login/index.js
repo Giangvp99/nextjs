@@ -11,6 +11,7 @@ export default function ModalLogin({ showL, setShowL, setUser }) {
     const [errors, setErrors] = useState({ username: "", password: "" })
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [userN, setUserN] = useState({})
     const [vpassword, setVPassword] = useState("");
     const setNewUser = useSetRecoilState(newUserState)
     const users = useRecoilValue(usersState)
@@ -24,7 +25,7 @@ export default function ModalLogin({ showL, setShowL, setUser }) {
         if (users.findIndex(a => a.username === username) != -1) {
             let index = users.findIndex(a => a.password === password)
             if (index != -1) {
-                setUser({ username, password })
+                setUser({ ...userN, username: username, password: password })
                 if (username === "admin")
                     router.push("/admin")
                 setShowL(false)
@@ -90,39 +91,80 @@ export default function ModalLogin({ showL, setShowL, setUser }) {
                     }
                     {
                         !active && <>
-                            <div className="col-lg-12 login-form">
-                                <div className={`col-lg-12`}>
-                                    <Form noValidate validated={validated} onSubmit={e => Registration(e)}>
-                                        <Form.Group as={Col} md="4" controlId="username">
-                                            <Form.Label>Username</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="text"
-                                                onChange={(e) => setUsername(e.target.value)}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group as={Col} md="4" controlId="password">
-                                            <Form.Label>Password</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="password"
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group as={Col} md="4" controlId="verify_password">
-                                            <Form.Label>Verify Password</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="password"
-                                                onChange={(e) => setVPassword(e.target.value)}
-                                                isValid={password == vpassword}
-                                                isInvalid={password != vpassword}
-                                            />
-                                        </Form.Group>
-                                        <Button type="submit" className="mt-3">Registration</Button>
-                                    </Form>
+                            <Form noValidate validated={validated} onSubmit={e => Registration(e)} className="row">
+                                <div className="col-lg-6">
+                                    <Form.Group as={Col} md="12" controlId="username">
+                                        <Form.Label>Username</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUsername(e.target.value)}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="password">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="password"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="verify_password">
+                                        <Form.Label>Verify Password</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="password"
+                                            onChange={(e) => setVPassword(e.target.value)}
+                                            isValid={password == vpassword}
+                                            isInvalid={password != vpassword}
+                                        />
+                                    </Form.Group>
                                 </div>
-                            </div>
+                                <div className="col-lg-6">
+                                    <Form.Group as={Col} md="12" controlId="name">
+                                        <Form.Label>Name user</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUserN(prev => { return { ...prev, fullname: e.target.value } })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="phone">
+                                        <Form.Label>Phone</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUserN(prev => { return { ...prev, phone: e.target.value } })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="age">
+                                        <Form.Label>Age</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUserN(prev => { return { ...prev, age: parseInt(e.target.value) } })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="gender">
+                                        <Form.Label>Gender</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUserN(prev => { return { ...prev, gender: e.target.value } })}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group as={Col} md="12" controlId="mail">
+                                        <Form.Label>Mail</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            onChange={(e) => setUserN(prev => { return { ...prev, mail: e.target.value } })}
+                                        />
+                                    </Form.Group>
+                                    <Button type="submit" className="mt-3">Registration</Button>
+                                </div>
+                            </Form>
+
                         </>
 
                     }
@@ -130,12 +172,6 @@ export default function ModalLogin({ showL, setShowL, setUser }) {
             </Container>
 
         </Modal.Body>
-        <Modal.Footer>
-            <Button variant="secondary" onClick={closeLogin}>
-                Close
-            </Button>
-
-        </Modal.Footer>
     </Modal>
 
 }

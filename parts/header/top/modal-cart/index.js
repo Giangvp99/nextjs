@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { Modal, Container, Row, Col, InputGroup, FormControl, Button, Image } from "react-bootstrap"
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { cart as cartState } from "../../../../recoil/states/cart"
 import stylesC from "../../../../styles/card.module.scss"
 import styles from "../../../../styles/header-top.module.scss"
 
 export default function ModalCart({ showC, setShowC, user }) {
-    const cart = useRecoilValue(cartState)
+    const [cart, setCart] = useRecoilState(cartState)
     const [total, setTotal] = useState(0);
     const [openInfo, setOpenInfo] = useState("d-none")
 
@@ -24,12 +24,13 @@ export default function ModalCart({ showC, setShowC, user }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user, cart })
         };
-        let res = await fetch('http://localhost:3000/api/sales/new', requestOptions)
-        const sale = await res.json()
-        console.log(sale)
+        await fetch('http://localhost:3000/api/sales', requestOptions)
+        setCart([])
+        setShowC(false)
+
     }
     const Sum = () => {
-        let res = cart.map(a => a.total * parseFloat(a.price.slice(1))).reduce((a, b) => a + b, 0)
+        let res = cart.map(a => a.total * a.price).reduce((a, b) => a + b, 0)
         return parseFloat(res.toFixed(2))
     }
     useEffect(() => {
@@ -47,10 +48,10 @@ export default function ModalCart({ showC, setShowC, user }) {
 
                             <Col xs={8}>
                                 {
-                                    Object.entries(cart).map(([slug, { name, img, total, price }]) => {
+                                    Object.entries(cart).map(([slug, { name, image, total, price }]) => {
                                         return (
                                             <div className="d-flex" key={slug}>
-                                                <Image src={img} rounded className={`${styles.size} mb-3`} />
+                                                <Image src={image} rounded className={`${styles.size} mb-3`} />
                                                 <div>
                                                     <p className="ps-3 fs-4">{name}</p>
                                                     <p className="ps-3 fs-5">количество: {total}</p>

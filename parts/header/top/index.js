@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil"
 import { cart as cartState } from "../../../recoil/states/cart"
-import { Button, Badge, } from "react-bootstrap";
+import { Button, Badge, DropdownButton, ButtonGroup, Dropdown } from "react-bootstrap";
 import ModalLogin from "./modal-login/index"
 import ModalCart from "./modal-cart/index"
 export default function Top() {
@@ -72,11 +72,14 @@ export default function Top() {
                 {
                     JSON.stringify(user) === JSON.stringify({}) && <><Button variant="primary" size="sm" className="ms-4 w-auto" onClick={() => setShowL(true)}>Log in</Button>{' '}</>
                 }{
-                    JSON.stringify(user) !== JSON.stringify({}) && <Button variant="info" size="sm" className="ps-3 pe-3 ms-3">{user.username}</Button>
+                    JSON.stringify(user) !== JSON.stringify({}) &&
+                    <DropdownButton as={ButtonGroup} title={`${user.username}   `} id="bg-nested-dropdown" variant="info" size="sm" className="ps-3 pe-3 ms-3">
+                        <Dropdown.Item onClick={() =>setUser({})}>Logout</Dropdown.Item>
+                    </DropdownButton>
                 }
             </div>
-            <ModalLogin showL={showL} setShowL={setShowL} setUser={setUser} user={user}/>
-            <ModalCart showC={showC} setShowC={setShowC} user={user}/>
+            <ModalLogin showL={showL} setShowL={setShowL} setUser={setUser} user={user} />
+            <ModalCart showC={showC} setShowC={setShowC} user={user} />
         </nav >
     );
 }

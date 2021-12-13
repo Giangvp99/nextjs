@@ -7,7 +7,7 @@ let Schema = mongoose.Schema;
 
 let saleSchema = new Schema({
     time: Array,
-    buyer: String,
+    name: String,
     phone: String,
     age: Number,
     gender: Boolean,
